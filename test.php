@@ -59,7 +59,36 @@
 
 	</head>
 	<body>
+		<?php 
+		include("config.php");
+		session_start();
+
+		if($_SERVER["REQUEST_METHOD"] == "POST") {
+      // username and password sent from form 
+      
+      $myusername = mysqli_real_escape_string($db,$_POST['username']);
+      $mypassword = mysqli_real_escape_string($db,$_POST['password']); 
+      
+      $sql = "SELECT id FROM Users WHERE username = '$myusername' and password = '$mypassword'";
+      $result = mysqli_query($db,$sql);
+      $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+      $active = $row['active'];
+      
+      $count = mysqli_num_rows($result);
+      
+      // If result matched $myusername and $mypassword, table row must be 1 row
 		
+      if($count == 1) {
+         session_register("myusername");
+         $_SESSION['login_user'] = $myusername;
+         
+         header("location: welcome.php");
+      }else {
+         $error = "Your Login Name or Password is invalid";
+      }
+   }
+
+		?>
 	<div class="colorlib-loader"></div>
 
 	<div id="page">
@@ -152,12 +181,12 @@
                       <a href="#"><img src="assets/images/fb.jpg" class="img-fluid d-block m-auto" alt=""></a>
                     </div>
                     <div class="r-or-line"><span>OR SIGN IN</span></div>
-                    <form action="#">
+                    <form action="#" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                       <div class="form-group">
-                        <input type="text" class="form-control" required placeholder="Email">
+                        <input type="text" class="form-control" required placeholder="User name" name="username">
                       </div>
                       <div class="form-group">
-                        <input type="password" class="form-control" required placeholder="Password">
+                        <input type="password" class="form-control" required placeholder="Password" name="password">
                       </div>
                       <div class="form-group">
                         <button class="btn btn-full">LOGIN NOW</button>

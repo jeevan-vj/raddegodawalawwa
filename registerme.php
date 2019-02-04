@@ -62,49 +62,52 @@
 
 	<?php 
 
-		require("config.php");
+require("config.php");
 
-		$username = $password = $confirmpassword = $email = "";
-		$isSuccess = true;
-		$usernameError = $passwordError = $emailError = $passwordMismatchError = "";
+$username = $password = $confirmpassword = $email = "";
+$isSuccess = true;
+$usernameError = $passwordError = $emailError = $passwordMismatchError = "";
+$redirectToLogin = false;
 
-		if($_SERVER["REQUEST_METHOD"]== "POST"){
-		
-			$username = $_POST["username"];
-			$email = $_POST["email"];
-			$password = $_POST["password"];
-			$confirmpassword = $_POST["confirmpassword"];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-			if(empty($username)){
-				$usernameError = "Invalid User Name.";
-				$isSuccess = false;
-			}
-			if(empty($password)){
-				$passwordError = "Invalid Password.";
-				$isSuccess = false;
-			}	
-			if(empty($email)){
-				$emailError = "Invalid Email.";
-				$isSuccess = false;
-			}
-			if($password != $confirmpassword){
-				$isSuccess = false;
-				$passwordMismatchError = "Password mismatch!..";
-			}
-			$insertSql = "INSERT INTO Users(username,email,password) Values('$username','$email','$password')";
+	$username = $_POST["username"];
+	$email = $_POST["email"];
+	$password = $_POST["password"];
+	$confirmpassword = $_POST["confirmpassword"];
 
-			if ($isSuccess) {
-				$insertQuery = mysqli_query($GLOBALS['db'], $insertSql);
+	if (empty($username)) {
+		$usernameError = "Invalid User Name.";
+		$isSuccess = false;
+	}
+	if (empty($password)) {
+		$passwordError = "Invalid Password.";
+		$isSuccess = false;
+	}
+	if (empty($email)) {
+		$emailError = "Invalid Email.";
+		$isSuccess = false;
+	}
+	if ($password != $confirmpassword) {
+		$isSuccess = false;
+		$passwordMismatchError = "Password mismatch!..";
+	}
+		// TODO check existing user name
 
-				if ($insertQuery) {
+	if ($isSuccess) {
+		$insertSql = "INSERT INTO Users(username,email,password) Values('$username','$email','$password')";
+		$insertQuery = mysqli_query($GLOBALS['db'], $insertSql);
+
+		if ($insertQuery) {
+			$redirectToLogin = true;
 					// TODO Redirect to login
-					echo "<script>	alert('Record inserted');	</script>";
-				}
-			}
-			
+			echo "<script>	alert('Record inserted');</script>";
+		}
 	}
 
-	?>
+}
+
+?>
 		
 	<div class="colorlib-loader"></div>
 
@@ -186,6 +189,7 @@
 		 <section id="r-login-register">
           <div class="r-login-register">
             <div class="r-login-register-in">
+							<?php if (!$redirectToLogin) { ?>
          <div class="r-auth-outer r-register">
                   <div class="r-auth-head">
                     <h2><b>Register</b> Now</h2>
@@ -217,13 +221,28 @@
                       </div>
                     </form>
                   </div>
-                   </div>
+									 </div>
+									 
+
+									 <?php 
+								} else { ?>
+								<div class="r-auth-outer r-register">
+								<div class="r-auth-head">
+                    <a href="/test.php"> <h2><b>Login</b> Now</h2> </a>
+                    <span>You are succesfully registered</span>
+                  </div>
+								</div>
+							<?php 
+					} ?>
+
               </div>
             </div>
           </div>
-
-		<footer id="colorlib-footer" role="contentinfo">
-			<div class="container">
+						
+	
+					<footer id="colorlib-footer" role="contentinfo">
+		
+					<div class="container">
 				<div class="row row-pb-md">
 					<div class="col-md-3 colorlib-widget">
 						<h4>Raddegoda Walawwa</h4>

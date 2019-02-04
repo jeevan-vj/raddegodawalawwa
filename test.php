@@ -62,6 +62,7 @@
 		<?php 
 		include("config.php");
 		session_start();
+		$error = "";
 
 		if($_SERVER["REQUEST_METHOD"] == "POST") {
       // username and password sent from form 
@@ -79,7 +80,6 @@
       // If result matched $myusername and $mypassword, table row must be 1 row
 		
       if($count == 1) {
-         session_register("myusername");
          $_SESSION['login_user'] = $myusername;
          
          header("location: welcome.php");
@@ -190,7 +190,12 @@
                       </div>
                       <div class="form-group">
                         <button class="btn btn-full">LOGIN NOW</button>
-                      </div>
+											</div>
+											<div class="form-group">
+												<span> 
+													<p> <?php echo $error ?> </p>
+												</span>
+											</div>
                     </form>
                     <div class="r-from-inof">
                       <p class="text-center">

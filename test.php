@@ -170,7 +170,7 @@
                       </p>
                     </div>
                     <h4>For New People</h4>
-			<p><a href="registerme.html">Register Here</a> (Or) go back to <a href="index.html">Home<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a></p>
+			<p><a href="registerme.php">Register Here</a> (Or) go back to <a href="index.html">Home<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a></p>
                   </div>
                 </div>
                

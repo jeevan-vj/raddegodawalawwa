@@ -226,7 +226,7 @@
 		                    <label for="date">Check-in:</label>
 		                    <div class="form-field">
 		                      <i class="icon icon-calendar2"></i>
-		                      <input type="text" id="date" class="form-control date" placeholder="Check-in date">
+		                      <input type="text" id="checkingdate" class="form-control date" placeholder="Check-in date">
 		                    </div>
 		                  </div>
 		                </div>
@@ -235,7 +235,7 @@
 		                    <label for="date">Check-out:</label>
 		                    <div class="form-field">
 		                      <i class="icon icon-calendar2"></i>
-		                      <input type="text" id="date" class="form-control date" placeholder="Check-out date">
+		                      <input type="text" id="checkoutDate" class="form-control date" placeholder="Check-out date">
 		                    </div>
 		                  </div>
 		                </div>
@@ -244,12 +244,12 @@
 		                    <label for="adults">Adults</label>
 		                    <div class="form-field">
 		                      <i class="icon icon-arrow-down3"></i>
-		                      <select name="people" id="people" class="form-control">
+		                      <select name="people" id="noOfGuests" class="form-control">
 		                        <option value="#">1</option>
 		                        <option value="#">2</option>
 		                        <option value="#">3</option>
 		                        <option value="#">4</option>
-		                        <option value="#">5+</option>
+		                        <option value="#">5</option>
 		                      </select>
 		                    </div>
 		                  </div>
@@ -264,7 +264,7 @@
 		                        <option value="#">2</option>
 		                        <option value="#">3</option>
 		                        <option value="#">4</option>
-		                        <option value="#">5+</option>
+		                        <option value="#">5</option>
 		                      </select>
 		                    </div>
 		                  </div>
@@ -292,6 +292,7 @@
 				<div class="row">
 					<div class="col-md-12 animate-box">
 						<div class="owl-carousel owl-carousel2">
+						<form action="#" method="post" >
 							<div class="item">
 								<a href="images/room-1.jpg" class="room image-popup-link" style="background-image: url(images/113067221.jpg);"></a>
 								<div class="desc text-center">
@@ -307,9 +308,12 @@
 										<li><i class="icon-check"></i> Breakfast included</li>
 										<li><i class="icon-check"></i> Price does not include VAT &amp; services fee</li>
 									</ul>
-									<p><a class="btn btn-primary btn-book">Book now!</a></p>
+									<input type="hidden" name="roomId" value="1" />
+									<p><button id="clickMe" class="btn btn-primary btn-book">Book now!</button></p>
 								</div>
 							</div>
+						</form>
+						<form action="#" method="post" >
 							<div class="item">
 								<a href="images/room-2.jpg" class="room image-popup-link" style="background-image: url(images/room2.jpg);"></a>
 								<div class="desc text-center">
@@ -325,9 +329,12 @@
 										<li><i class="icon-check"></i> Breakfast included</li>
 										<li><i class="icon-check"></i> Price does not include VAT &amp; services fee</li>
 									</ul>
-									<p><a class="btn btn-primary btn-book">Book now!</a></p>
+									<input type="hidden" name="roomId" value="2" />
+									<p><button class="btn btn-primary btn-book">Book now!</button></p>
 								</div>
 							</div>
+						</form>
+						<form action="#" method="post" >
 							<div class="item">
 								<a href="images/room-3.jpg" class="room image-popup-link" style="background-image: url(images/room-3.jpg);"></a>
 								<div class="desc text-center">
@@ -343,10 +350,12 @@
 										<li><i class="icon-check"></i> Babysitting facilities</li>
 										<li><i class="icon-check"></i> 1 free bed available on request</li>
 									</ul>
-									<p><a class="btn btn-primary btn-book">Book now!</a></p>
+									<input type="hidden" name="roomId" value="3" />
+									<p><button class="btn btn-primary btn-book">Book now!</button></p>
 								</div>
 							</div>
-							<div class="item">
+								</form>
+							<!-- <div class="item">
 								<a href="images/room-4.jpg" class="room image-popup-link" style="background-image: url(images/hqdefault.jpg);"></a>
 								<div class="desc text-center">
 									<span class="rate-star"><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full"></i></span>
@@ -399,7 +408,7 @@
 									</ul>
 									<p><a class="btn btn-primary btn-book">Book now!</a></p>
 								</div>
-							</div>
+							</div> -->
 						</div>
 					</div>
 					<div class="col-md-12 text-center animate-box">
@@ -712,6 +721,103 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<script src="js/bootstrap-datepicker.js"></script>
 	<!-- Main -->
 	<script src="js/main.js"></script>
+
+	<script>
+// Variable to hold request
+var request;
+
+// Bind to the submit event of our form
+$("form").submit(function(event){
+
+	var checkingdate = $("#checkingdate").val();
+	var checkoutDate = $("#checkoutDate").val();
+
+	if(checkingdate.length == 0 || checkingdate == undefined)
+	{
+		alert("Please slelect Checking Date!..");
+		return false;
+	}
+	if(checkoutDate.length == 0 || checkoutDate == undefined)
+	{
+		alert("Please slelect Checking Date!..");
+		return false;
+	}
+    // Prevent default posting of form - put here to work in case of errors
+    event.preventDefault();
+
+    // Abort any pending request
+    if (request) {
+        request.abort();
+		}
+		
+		$('<input />').attr('type', 'hidden')
+          .attr('name', "checkingdate")
+					.attr('value', checkingdate).appendTo(this);
+
+					$('<input />').attr('type', 'hidden')
+          .attr('name', "checkoutDate")
+					.attr('value', checkoutDate).appendTo(this);
+
+					$('<input />').attr('type', 'hidden')
+          .attr('name', "noOfGuests")
+					.attr('value', 2).appendTo(this);
+					
+    // setup some local variables
+    var $form = $(this);
+
+    // Let's select and cache all the fields
+    var $inputs = $form.find("input, select, button, textarea");
+	
+    // Serialize the data in the form
+		var serializedData = $form.serialize();
+console.log(serializedData);
+
+    // Let's disable the inputs for the duration of the Ajax request.
+    // Note: we disable elements AFTER the form data has been serialized.
+    // Disabled form elements will not be serialized.
+    $inputs.prop("disabled", true);
+
+    // Fire off the request to /form.php
+    request = $.ajax({
+        url: "booking.php",
+        type: "post",
+        data: serializedData
+    });
+
+    // Callback handler that will be called on success
+    request.done(function (response, textStatus, jqXHR){
+				// Log a message to the console
+				alert(response);
+        console.log("Hooray, it worked!");
+    });
+
+    // Callback handler that will be called on failure
+    request.fail(function (jqXHR, textStatus, errorThrown){
+        // Log the error to the console
+        console.error(
+            "The following error occurred: "+
+            textStatus, errorThrown
+        );
+    });
+
+    // Callback handler that will be called regardless
+    // if the request failed or succeeded
+    request.always(function () {
+        // Reenable the inputs
+        $inputs.prop("disabled", false);
+    });
+
+});
+		// $("#clickMe").click(function () {
+    // $("form").trigger('submit'); // should show 3 alerts (one for each form submission)
+		// });
+
+		// $('form').submit(function () {
+		// 	alert("form")
+		// 		return true;
+		// });
+
+		</script>
 
 	</body>
 </html>

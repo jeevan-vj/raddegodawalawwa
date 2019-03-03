@@ -57,7 +57,18 @@
 
 	</head>
 	<body>
-		
+		<?php 
+			include("config.php");
+			session_start();
+
+			$isLoggedIn = false;
+			$userName = "";
+
+			if(!empty($_SESSION['login_user'])){
+				$isLoggedIn = true;
+				$userName = $_SESSION['login_user'];
+			}
+		?>
 	<div class="colorlib-loader"></div>
 
 	<div id="page">
@@ -67,6 +78,9 @@
 					<div class="row">
 						<div class="col-xs-3">
 							<p class="site">www.raddegodawalawwa1@gmail.com</p>
+							<p>
+								<?php echo "Welcome ".$userName ?>
+							</p>
 						</div>
 						<div class="col-xs-8 text-right">
 							<p class="num">Call: +374937773</p>
@@ -115,7 +129,11 @@
 								<li><a href="blog.html">Blog</a></li>
 								<li><a href="about.html">About</a></li>
 								<li><a href="contact.html">Contact</a></li>
+								<?php if($isLoggedIn) { ?>
+									<li><a href="logout.php">Log Out</a></li>
+								<?php } else { ?>
 								<li><a href="test.php">Login</a></li>
+								<?php } ?>
 							</ul>
 						</div>
 					</div>
